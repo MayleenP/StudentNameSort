@@ -9,6 +9,9 @@ Using Python to match names and others from two different Excel files
 
 
 ## Future Progress
-1. Support for Multiple Files and Multiple Sheets: please refer to 
+1. Support for Multiple Files and Multiple Sheets: please refer to MultipleFiles_MultipleSheets.py
+2. 
 
-If you need to process multiple files simultaneously (such as ClassB.xlsx and ClassC.xlsx), you can extend the code as follows:
+
+
+## Note
