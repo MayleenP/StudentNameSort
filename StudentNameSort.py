@@ -35,7 +35,7 @@ try:
         converters={'Name': lambda x: str(x).strip().lower()}
     )
 except Exception as e:
-    print(f"文件读取失败：{str(e)}")
+    print(f"FAILED TO READ FILES：{str(e)}")
     exit()
 
 # 数据清洗 Clean data
@@ -53,10 +53,10 @@ for idx, row in df_current.iterrows():
         # 生成正确的单元格地址（B列，从B1开始）Create cell address (If B rows, then start from B1)
         cell_address = f"B{idx + 1}"  # 从1开始，无标题行 None header, start from column 1 
         results.append({
-            '目标姓名': row['Name'].title(),  # 首字母大写 First letter capital letter  
-            '所在文件': 'ClassB.xlsx',
-            '单元格地址': cell_address,
-            '行号': idx + 1
+            'NAME': row['Name'].title(),  # 首字母大写 First letter capital letter  
+            'FILE': 'ClassB.xlsx',
+            'CELL ADDRESS': cell_address,
+            'COLUMN NUM': idx + 1
         })
 
 # 保存结果 Save results
@@ -64,21 +64,21 @@ if results:
     result_df = pd.DataFrame(results)
 
     # 添加匹配统计 Add count
-    match_count = result_df.groupby('目标姓名').size().reset_index(name='出现次数')
-    final_df = pd.merge(result_df, match_count, on='目标姓名')
+    match_count = result_df.groupby('NAME').size().reset_index(name='APPEARANCES')
+    final_df = pd.merge(result_df, match_count, on='NAME')
 
     final_df.to_excel(output_file, index=False)
-    print(f"成功找到 {len(results)} 处匹配，结果已保存至：{output_file}")
+    print(f"{len(results)} SUBJECTS SUCCESSFULLY MATCH，THE RESULTS SAVED TO：{output_file}")
 
     # 控制台输出统计信息 Output details at the terminal
-    print("\n匹配统计：")
-    print(final_df[['目标姓名', '出现次数']].drop_duplicates())
+    print("\nMATCH STATISTICS：")
+    print(final_df[['NAME', 'APPEARANCES']].drop_duplicates())
 else:
-    print("未找到任何匹配项，请检查："
-          "\n1. 两文件姓名是否一致"
-          "\n2. 清洗后数据是否有效")
+    print("NO MATCH FOUND，PLEASE CHECK："
+          "\n1. TWO FILENAMES ARE CORRECT"
+          "\n2. IS THE CLEAN DATA WORKING?")
 
 # 验证输出样例（前3条）For testing output (can be ignored)
 if len(results) >= 3:
-    print("\n示例结果：")
-    print(final_df[['目标姓名', '单元格地址']].head(3))
+    print("\nEXAMPLE RESULTS：")
+    print(final_df[['NAME', 'CELL ADDRESS']].head(3))
